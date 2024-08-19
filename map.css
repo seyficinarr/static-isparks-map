@@ -1,0 +1,329 @@
+html,
+body,
+#viewDiv {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+
+#closestIspark {
+    position: absolute;
+    top: 55px;
+    left: 60px;
+    background: rgba(255, 255, 255, 0);
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 99;
+    width: 150px;
+    height: 25px;
+}
+
+#closestIsparkButton,
+#showAllIsparks {
+    background-color: rgba(255, 166, 0, 0.722);
+    /* Primary button color */
+    color: white;
+    /* Text color */
+    border: none;
+    /* Remove default border */
+    border-radius: 5px;
+    /* Rounded corners */
+    padding: 10px 15px;
+    /* Padding inside the button */
+    font-size: 12px;
+    /* Font size */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    /* Smooth transition for hover effect */
+    width: 100%;
+    /* Full width to fit parent container */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    /* Subtle shadow */
+}
+
+#closestIsparkButton:hover,
+#showAllIsparks:hover {
+    background-color: rgba(255, 255, 255, 0.722);
+    color: orange;
+    /* Darker color on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    /* Enhance shadow on hover */
+}
+
+#allIsparks {
+    position: absolute;
+    top: 110px;
+    left: 80px;
+    width: 150px;
+    z-index: 99;
+}
+
+#filterDiv {
+    position: absolute;
+    top: 150px;
+    left: 10px;
+    background-color: rgba(255, 166, 0, 0.742);
+    color: white;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 99;
+    width: 250px;
+    transition: width 0.3s, height 0.3s, top 0.3s;
+}
+
+#filterDiv.collapsed {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    top: 100px;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+}
+
+#filterDiv.collapsed .icon {
+    display: none;
+}
+
+#filterDiv .toggleButton {
+    position: absolute;
+    top: 8px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.708);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 18px;
+    z-index: 100;
+}
+
+#filterDiv label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    display: block;
+    transition: opacity 0.3s;
+}
+
+#filterDiv.collapsed label {
+    opacity: 0;
+}
+
+#filterDiv select,
+#filterDiv input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+#filterDiv select {
+    height: 150px;
+    overflow-y: auto;
+}
+
+#filterDiv button {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #0078d4;
+    color: white;
+}
+
+#filterDiv button:hover {
+    background-color: rgba(0, 0, 0, 0.625);
+    color: rgba(255, 255, 255, 0.744);
+}
+
+#filterDiv.collapsed .content {
+    display: none;
+}
+
+#filterDiv.collapsed .icon {
+    font-size: 24px;
+    line-height: 50px;
+}
+
+#map_explainer {
+    justify-content: center;
+    display: flex;
+    position: absolute;
+    font-size: 13px;
+    top: 10px;
+    left: 370px;
+    background: rgba(0, 0, 0, 0.515);
+    padding: 20px;
+    border-radius: 5px;
+    z-index: 99;
+    width: 1000px;
+    height: 30px;
+    color: black;
+    line-height: 5px;
+    /* Ensure text is readable */
+    padding: 20px;
+    /* Add some space around text */
+    border: 1px solid black;
+    /* Add border to see its boundary */
+
+}
+
+.status {
+    margin-right: 20px;
+    /* Space between the items */
+}
+
+.status:last-child {
+    margin-right: 0;
+    /* Remove margin from the last item */
+}
+
+#map_explainer.collapsed {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+}
+
+#toggleMapExplainer {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    background-color: rgba(255, 255, 255, 0.744);
+    color: rgba(0, 0, 0, 0.721);
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 100;
+}
+
+#map_explainer button:hover {
+    color: rgba(255, 255, 255, 0.704);
+    background-color: rgba(0, 0, 0, 0.716);
+}
+
+#map_explainer.collapsed .status {
+    display: none;
+}
+
+#map_explainer.collapsed #toggleMapExplainer {
+    font-size: 18px;
+}
+
+#info {
+    position: absolute;
+    font-size: 15px;
+    bottom: 50px;
+    left: 10px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 99;
+    width: 250px;
+    background-color: rgba(255, 166, 0, 0.750);
+    color: white;
+    /* Ensure text is readable */
+    padding: 20px;
+    /* Add some space around text */
+    border: 1px solid rgb(167, 23, 23);
+
+}
+
+#districtFilter,
+#singledistrictFilter {
+    background-color: rgba(0, 0, 0, 0.625);
+    color: white;
+}
+#isparks-table {
+    width: 100%;
+    table-layout: fixed;
+    /* Ensures columns obey width settings */
+    border-collapse: collapse;
+    /* Optional: for better border management */
+}
+#isparkInfo {
+    display: block;
+    position: absolute;
+    left: 320px;
+    bottom: 50px;
+    background-color: rgba(255, 166, 0, 0.750);
+    /* Border for the container */
+    padding: 0;
+    /* Remove padding to ensure no extra space */
+    z-index: 100;
+    border-radius: 5px;
+    width: 1100px;
+    /* Adjust width to fit the content */
+    height: auto;
+    /* Adjust height to fit the content */
+    box-sizing: border-box;
+    /* Include padding and border in the element's total width and height */
+}
+
+#isparkInfo table {
+    width: 100%;
+    /* Make table use full width of the container */
+    border-collapse: collapse;
+    /* Ensure borders are collapsed for better visibility */
+    margin: 0;
+    padding: 0;
+    /* Remove default margin if any */
+}
+
+
+
+#isparkInfo th,
+#isparkInfo td {
+    border: 1px solid #000000;
+    color: white;
+    /* Border for table cells */
+    padding: 6px;
+    /* Add padding inside cells */
+    text-align: center;
+    vertical-align: center;
+    /* Align text to the left */
+}
+
+#isparkInfo th {
+    background-color: rgba(148, 98, 6, 0.750);
+    /* Light gray background for table headers */
+}
+
+#highlightControl {
+    position: absolute;
+    /* Ensure correct positioning */
+    margin: 10px;
+    top: 10px;
+    /* Adjust as needed */
+    left: 60px;
+    /* Adjust as needed */
+    z-index: 100;
+    /* Ensure it appears above other elements */
+    font-family: Arial, sans-serif;
+    color: white;
+    /* Temporary color to debug visibility */
+}
+
+
+
