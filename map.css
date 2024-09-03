@@ -11,55 +11,128 @@ body,
 
 #closestIspark {
     position: absolute;
-    top: 55px;
+    top: 30px;
     left: 60px;
     background: rgba(255, 255, 255, 0);
-    padding: 20px;
+    padding: 1.25rem;
     border-radius: 5px;
     z-index: 99;
     width: 150px;
     height: 25px;
 }
 
+#allIsparks {
+    position: absolute;
+    top: 105px;
+    left: 80px;
+    width: 150px;
+    z-index: 99;
+}
+
 #closestIsparkButton,
 #showAllIsparks {
     background-color: rgba(255, 166, 0, 0.722);
-    /* Primary button color */
     color: white;
-    /* Text color */
     border: none;
-    /* Remove default border */
     border-radius: 5px;
-    /* Rounded corners */
-    padding: 10px 15px;
-    /* Padding inside the button */
-    font-size: 12px;
-    /* Font size */
+    padding: 0.625rem 1rem;
+    font-size: 0.8rem;
     cursor: pointer;
-    /* Pointer cursor on hover */
     transition: background-color 0.3s, box-shadow 0.3s;
-    /* Smooth transition for hover effect */
     width: 100%;
-    /* Full width to fit parent container */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    /* Subtle shadow */
 }
 
 #closestIsparkButton:hover,
 #showAllIsparks:hover {
     background-color: rgba(255, 255, 255, 0.722);
     color: orange;
-    /* Darker color on hover */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    /* Enhance shadow on hover */
 }
 
-#allIsparks {
+#filterOpenIsparks {
+    margin-top: 10px;
+    color: white;
+    display: flex;
+    /* Use flexbox */
+    align-items: center;
+}
+
+#filterOpenIsparks>div {
+    display: flex;
+    /* Ensure the label and checkbox stay in a row */
+    align-items: center;
+    /* Align items vertically centered */
+}
+
+#filterOpenIsparks label {
+    margin-right: 3px;
+    /* Space between label and checkbox */
+    white-space: nowrap;
+    /* Prevent label from wrapping */
+}
+
+#filterOpenIsparks input[type="checkbox"] {
+    margin-right: 65px;
+    /* Checkbox ile etiket arasında boşluk bırakır */
+}
+
+#filterAvailableIsparks {
+    margin-top: 10px;
+    color: white;
+    display: flex;
+    /* Use flexbox */
+    align-items: center;
+}
+
+#filterAvailableIsparks>div {
+    display: flex;
+    /* Ensure the label and checkbox stay in a row */
+    align-items: center;
+    /* Align items vertically centered */
+}
+
+#filterAvailableIsparks label {
+    margin-right: 3px;
+    /* Space between label and checkbox */
+    white-space: nowrap;
+    /* Prevent label from wrapping */
+}
+
+#filterAvailableIsparks input[type="checkbox"] {
+    margin-right: 90px;
+    /* Checkbox ile etiket arasında boşluk bırakır */
+}
+
+#filterSecondDiv {
+    /* Ensure all items within this div are displayed in a row */
+    flex-direction: column;
     position: absolute;
-    top: 110px;
-    left: 80px;
-    width: 150px;
+    top: 50px;
+    right: 10px;
+    background-color: rgba(255, 166, 0, 0.742);
+    color: white;
+    padding: 1.25rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 99;
+    width: 250px;
+    transition: width 0.3s, height 0.3s, top 0.3s;
+
+}
+
+#filterSecondDiv.collapsed {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    top: 50px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: transparent;
+    border: none;
 }
 
 #filterDiv {
@@ -68,7 +141,7 @@ body,
     left: 10px;
     background-color: rgba(255, 166, 0, 0.742);
     color: white;
-    padding: 20px;
+    padding: 1.25rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 99;
@@ -90,12 +163,19 @@ body,
     border: none;
 }
 
-#filterDiv.collapsed .icon {
+#filterDiv.collapsed .icon,
+#filterSecondDiv.collapsed .icon {
     display: none;
 }
 
-#filterDiv .toggleButton {
+.toggleButton {
+    cursor: pointer;
+}
+
+#filterDiv .toggleButton,
+#filterSecondDiv .toggleButton {
     position: absolute;
+    align-items: center;
     top: 8px;
     right: 5px;
     width: 30px;
@@ -106,90 +186,189 @@ body,
     border-radius: 50%;
     text-align: center;
     line-height: 15px;
+    font-size: 12px;
+    z-index: 100;
+}
+
+#infoPart .toggleButton {
+    position: absolute;
+    bottom: 18px;
+    left: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: rgba(255, 255, 255, 0.708);
+    color: black;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 11px;
     font-size: 18px;
     z-index: 100;
 }
 
-#filterDiv label {
+#infoPart .toggleButton:hover {
+    position: absolute;
+    bottom: 18px;
+    left: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 15px;
+    font-size: 18px;
+    z-index: 100;
+}
+
+#filterDiv label,
+#filterSecondDiv label {
     display: block;
-    margin-bottom: 5px;
     font-weight: bold;
-    display: block;
     transition: opacity 0.3s;
 }
 
-#filterDiv.collapsed label {
+#filterDiv.collapsed label,
+#filterSecondDiv.collapsed label {
     opacity: 0;
 }
 
 #filterDiv select,
-#filterDiv input {
+#filterDiv input,
+#filterSecondDiv select,
+#filterSecondDiv input {
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-#filterDiv select {
+#filterDiv select,
+#filterSecondDiv select {
     height: 150px;
     overflow-y: auto;
 }
 
-#filterDiv button {
-    display: block;
-    margin: 10px 0;
-    padding: 10px;
+#filterDiv button,
+#filterSecondDiv button{
+    background-color: white;
+    color: black;
     border: none;
-    border-radius: 4px;
-    background-color: #0078d4;
-    color: white;
+    border-radius: 50%;
+    padding: 0.625rem 1rem;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+
+    /* Centering text inside the button */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
-#filterDiv button:hover {
+#filterDiv button:hover,
+#filterSecondDiv button:hover,
+#map_explainer button:hover {
     background-color: rgba(0, 0, 0, 0.625);
     color: rgba(255, 255, 255, 0.744);
 }
 
-#filterDiv.collapsed .content {
+.content {
+    display: flex;
+    /* Make sure the content is a flex container */
+    flex-direction: column;
+}
+
+#filterDiv.collapsed .content,
+#filterSecondDiv.collapsed .content,
+#infoPart.collapsed .content,
+#datasetsLinks.collapsed .content {
     display: none;
 }
 
-#filterDiv.collapsed .icon {
+#filterDiv.collapsed .icon,
+#filterSecondDiv.collapsed .icon {
     font-size: 24px;
     line-height: 50px;
 }
 
+#distanceRange {
+    -webkit-appearance: none;
+    margin-right: 40px;
+    /* Increase margin to the right */
+    width: calc(100% - 60px);
+    /* Adjust the width to account for the right margin */
+    height: 15px;
+    background-color: rgba(255, 255, 255, 0.53);
+    /* Default track color */
+    border-radius: 5px;
+    outline: none;
+}
+
+#distanceRange::-webkit-slider-thumb {
+    margin-right: 30px;
+    -webkit-appearance: none;
+    appearance: none;
+    width: 0px;
+    /* Adjust thumb width */
+    height: 0px;
+    /* Adjust thumb height */
+    background-color: rgba(255, 166, 0, 0.86);
+    /* Thumb color */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+#distanceRange::-moz-range-thumb {
+    margin-right: 30px;
+    width: 0px;
+    height: 0px;
+    background-color: black;
+    /* Thumb color */
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+/* Styling for when the slider is at minimum and maximum */
+#distanceRange:focus {
+    outline: none;
+}
+
+/* Change track color based on the value */
+#distanceRange {
+    background: linear-gradient(to right, #020202 0%, #000000 var(--value), #ddd var(--value), #ddd 100%);
+}
+
 #map_explainer {
-    justify-content: center;
+    justify-content: right;
     display: flex;
     position: absolute;
-    font-size: 13px;
+    font-size: 0.9125rem;
     top: 10px;
-    left: 370px;
+    left: 400px;
     background: rgba(0, 0, 0, 0.515);
-    padding: 20px;
+    padding: 1.25rem;
     border-radius: 5px;
     z-index: 99;
-    width: 1000px;
-    height: 30px;
+    width: auto;
+    height: 4%;
     color: black;
     line-height: 5px;
-    /* Ensure text is readable */
-    padding: 20px;
-    /* Add some space around text */
     border: 1px solid black;
-    /* Add border to see its boundary */
+    text-align: right;
 
 }
 
 .status {
-    margin-right: 20px;
-    /* Space between the items */
+    margin-right: 1.25rem;
 }
 
 .status:last-child {
     margin-right: 0;
-    /* Remove margin from the last item */
 }
 
 #map_explainer.collapsed {
@@ -201,53 +380,45 @@ body,
     border: none;
 }
 
-#toggleMapExplainer {
+#toggleMapExplainer,
+#toggleMapExplainer.collapsed {
     position: absolute;
-    top: 5px;
+    top: 8px;
     left: 5px;
-    background-color: rgba(255, 255, 255, 0.744);
-    color: rgba(0, 0, 0, 0.721);
+    width: 20px;
+    height: 20px;
+    background-color: rgba(255, 255, 255, 0.708);
+    color: black;
     border: none;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
     text-align: center;
-    line-height: 30px;
-    font-size: 18px;
-    cursor: pointer;
+    line-height: 15px;
+    font-size: 12px;
     z-index: 100;
 }
 
-#map_explainer button:hover {
-    color: rgba(255, 255, 255, 0.704);
-    background-color: rgba(0, 0, 0, 0.716);
-}
+
+
 
 #map_explainer.collapsed .status {
     display: none;
 }
 
-#map_explainer.collapsed #toggleMapExplainer {
-    font-size: 18px;
-}
+
 
 #info {
     position: absolute;
-    font-size: 15px;
+    font-size: 0.9375rem;
     bottom: 50px;
     left: 10px;
-    padding: 20px;
+    padding: 1.25rem;
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     z-index: 99;
     width: 250px;
     background-color: rgba(255, 166, 0, 0.750);
     color: white;
-    /* Ensure text is readable */
-    padding: 20px;
-    /* Add some space around text */
     border: 1px solid rgb(167, 23, 23);
-
 }
 
 #districtFilter,
@@ -255,75 +426,223 @@ body,
     background-color: rgba(0, 0, 0, 0.625);
     color: white;
 }
+
 #isparks-table {
     width: 100%;
     table-layout: fixed;
-    /* Ensures columns obey width settings */
     border-collapse: collapse;
-    /* Optional: for better border management */
 }
+
 #isparkInfo {
     display: block;
     position: absolute;
     left: 320px;
     bottom: 50px;
     background-color: rgba(255, 166, 0, 0.750);
-    /* Border for the container */
     padding: 0;
-    /* Remove padding to ensure no extra space */
     z-index: 100;
     border-radius: 5px;
     width: 1100px;
-    /* Adjust width to fit the content */
     height: auto;
-    /* Adjust height to fit the content */
     box-sizing: border-box;
-    /* Include padding and border in the element's total width and height */
 }
 
 #isparkInfo table {
     width: 100%;
-    /* Make table use full width of the container */
     border-collapse: collapse;
-    /* Ensure borders are collapsed for better visibility */
     margin: 0;
     padding: 0;
-    /* Remove default margin if any */
 }
-
-
 
 #isparkInfo th,
 #isparkInfo td {
     border: 1px solid #000000;
     color: white;
-    /* Border for table cells */
     padding: 6px;
-    /* Add padding inside cells */
     text-align: center;
     vertical-align: center;
-    /* Align text to the left */
 }
 
 #isparkInfo th {
     background-color: rgba(148, 98, 6, 0.750);
-    /* Light gray background for table headers */
 }
 
 #highlightControl {
     position: absolute;
-    /* Ensure correct positioning */
     margin: 10px;
     top: 10px;
-    /* Adjust as needed */
     left: 60px;
-    /* Adjust as needed */
     z-index: 100;
-    /* Ensure it appears above other elements */
     font-family: Arial, sans-serif;
     color: white;
-    /* Temporary color to debug visibility */
+}
+
+.toggleButton {
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    /* Added transition */
 }
 
 
 
+#map_explainer .toggleButton {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#filterDiv.collapsed .toggleButton,
+#filterSecondDiv.collapsed .toggleButton,
+#map_explainer.collapsed .toggleButton,
+#infoPart.collapsed .toggleButton {
+    transform: rotate(180deg);
+    /* Rotate the button when collapsed */
+}
+
+#filterDiv,
+#filterSecondDiv,
+#map_explainer,
+#infoPart {
+    transition: width 0.3s ease, height 0.3s ease, top 0.3s ease, padding 0.3s ease, opacity 0.3s ease;
+    /* Smooth transitions for the filters */
+}
+
+#filterDiv.collapsed,
+#filterSecondDiv.collapsed,
+#map_explainer.collapsed,
+#infoPart.collapsed {
+    opacity: 0.8;
+    /* Optionally change the opacity when collapsed */
+}
+
+#datasetLinks {
+    position: absolute;
+    bottom: 200px;
+    right: 10px;
+    background-color: rgba(255, 255, 255, 0.463);
+    padding: 1.25rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 99;
+    width: 250px;
+    transition: height 0.9s ease, opacity 0.3s ease;
+    /* Smooth transitions */
+}
+
+#datasetLinks.collapsed {
+    width: 50px;
+    height: 50px;
+    padding: 0;
+    bottom: 50px;
+    right: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: transparent;
+    border: none;
+    opacity: 0.5;
+    /* Reduce opacity when collapsed */
+}
+
+#datasetLinks .content {
+    display: block;
+    /* Default to block */
+}
+
+#datasetLinks.collapsed .content {
+    display: none;
+    /* Hide content when collapsed */
+}
+
+#datasetLinks .toggleImage {
+    display: none;
+    /* Hide image by default */
+    cursor: pointer;
+    /* Pointer cursor for image */
+}
+
+#datasetLinks:not(.collapsed) .toggleImage {
+    display: none;
+    /* Hide image when not collapsed */
+}
+
+#datasetLinks.collapsed .toggleImage {
+    display: flex;
+    /* Show image when collapsed */
+    width: 40px;
+    /* Set width for the image */
+    height: 40px;
+    /* Set height for the image */
+    border-radius: 5px;
+}
+
+.closeButton {
+    background-color: transparent;
+    /* Transparent background */
+    color: black;
+    /* Close button color */
+    border: none;
+    /* No border */
+    font-size: 15px;
+    /* Font size */
+    position: absolute;
+    /* Position it absolutely */
+    top: 5px;
+    /* Adjust as needed */
+    right: 5px;
+    /* Adjust as needed */
+    cursor: pointer;
+    /* Pointer cursor for button */
+    display: none;
+    /* Hide by default */
+}
+
+#datasetLinks:not(.collapsed) .closeButton {
+    display: block;
+    /* Show close button when expanded */
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    #isparkInfo {
+        width: 90%;
+        left: 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    #filterDiv {
+        width: 200px;
+        top: 100px;
+    }
+
+    #closestIspark {
+        top: 45px;
+        left: 20px;
+    }
+
+    
+}
+
+@media (max-width: 480px) {
+    #filterDiv {
+        width: 150px;
+        top: 80px;
+    }
+
+    #closestIspark {
+        top: 35px;
+        left: 10px;
+    }
+
+    
+    #info {
+        width: 200px;
+        bottom: 30px;
+        left: 5px;
+    }
+}
