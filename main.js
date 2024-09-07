@@ -184,9 +184,7 @@ require([
         allGraphics.forEach(ispark => {
             count++;
             const currentDistance = ispark.attributes.distance;
-            if(currentDistance > 100 && currentDistance < 110){
-                console.log(currentDistance);
-            }
+            
             if (currentDistance < distance) {
                 closestIspark = ispark;
                 distance = currentDistance;
@@ -275,8 +273,6 @@ require([
 
     function populatedistrictDropdown() {
         const districts = Array.from(new Set(isparks.map(ispark => ispark.district)));
-        console.log(isparks);
-        console.log(districts);
         const select = document.getElementById('districtFilter');
         select.innerHTML = '';
 
@@ -460,7 +456,6 @@ require([
             if (graphic) {
                 const parkId = graphic.graphic.attributes.id;
                 showIsparkInfo(parkId);
-                console.log(parkId);
             }
         });
     });
@@ -666,7 +661,6 @@ require([
 
         allGraphics.forEach(graphic => {
             const color = graphic.symbol.color;
-            console.log(color);
 
             if (openFilter) {
                 if (color.r != 128) {
@@ -709,7 +703,6 @@ require([
 
         allGraphics.forEach(graphic => {
             const color = graphic.symbol.color;
-            console.log(color);
 
             if (availableFilter) {
                 if (color.g == 128) {
