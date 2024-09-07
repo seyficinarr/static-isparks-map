@@ -191,6 +191,7 @@ require([
             }
 
         });
+        const distance2 = distance.toFixed(2);
         // Check if a closest Ispark was found
         if (closestIspark) {
             const point = new Point({
@@ -218,7 +219,7 @@ require([
                     title: "Closest Ispark",
                     content: `
                 <b>Name:</b> ${closestIspark.attributes.name}<br>
-                <b>Distance:</b> ${distance} kilometers away<br>
+                <b>Distance:</b> ${distance2} kilometers away<br>
                 <b>Park Type:</b> ${closestIspark.attributes.description}<br>
                 <b>District:</b> ${closestIspark.attributes.district}<br>
                 <a href="http://127.0.0.1:5000/ispark/${closestIspark.attributes.id}" target="_blank">Detailed Information</a><br>
