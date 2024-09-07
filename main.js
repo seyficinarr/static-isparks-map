@@ -86,12 +86,14 @@ require([
                     description: ispark.parkType,
                     district: ispark.district,
                     lat: ispark.lat,
-                    lon: ispark.lng
+                    lon: ispark.lng,
+                    distance: getDistance(currentLatitude, currentLongitude, ispark.lat, ispark.lng),
+                    distance2: getDistance(currentLatitude, currentLongitude, ispark.lat, ispark.lng).toFixed(2),
                 },
                 popupTemplate: {
                     title: "{name}",
                     content: `
-                    <b>Distance:</b> ${getDistance(currentLatitude, currentLongitude, ispark.lat, ispark.lng)} kilometers away<br>
+                    <b>Distance:</b> {distance2} kilometers away<br>
                     <b>Park Type:</b> {description}<br>
                     <b>District:</b> {district}<br>
                     <a href="https://www.google.com/maps?q={lat},{lon}" target="_blank">Get Direction</a>
@@ -122,58 +124,120 @@ require([
     });
 
 
+    // function getClosestIspark() {
+    //     let distance = Infinity;
+    //     let closestIspark = null;
+
+    //     isparks.forEach(ispark => {
+    //         const isparkLat = ispark.lat;
+    //         const isparkLng = ispark.lng;
+    //         const currentDistance = getDistance(isparkLat, isparkLng, currentLatitude, currentLongitude);
+    //         if (currentDistance < distance) {
+    //             closestIspark = ispark;
+    //             distance = currentDistance;
+    //         }
+    //     });
+    //     const point = new Point({
+    //         longitude: closestIspark.lng,
+    //         latitude: closestIspark.lat
+    //     });
+
+    //     // Create a Graphic for the marker
+    //     const markerSymbol = {
+    //         type: "picture-marker",
+    //         url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+    //         width: "48px",
+    //         height: "48px",
+    //         anchor: "bottom",
+    //         yoffset: 20
+    //     };
+
+    //     const pointGraphic = new Graphic({
+    //         geometry: point,
+    //         symbol: markerSymbol,
+    //         attributes: {
+    //             id: closestIspark.parkID,
+    //         },
+    //         popupTemplate: {
+    //             title: "Closest Ispark",
+    //             content: `
+    //             <b>Name:</b> ${closestIspark.parkName}<br>
+    //             <b>Distance:</b> ${distance} kilometers away<br>
+    //             <b>Park Type:</b> ${closestIspark.parkType}<br>
+    //             <b>District:</b> ${closestIspark.district}<br>
+    //             <a href="http://127.0.0.1:5000/ispark/${closestIspark.parkId}" target="_blank">Detailed Information</a><br>
+    //             <a href="https://www.google.com/maps?q={closestIspark.lat},{closestIspark.lng}" target="_blank">Get Direction</a>
+    //         `
+    //         }
+    //     });
+
+    //     // Add the marker Graphic to the GraphicsLayer
+    //     graphicsLayer.add(pointGraphic);
+    //     view.center = [closestIspark.lng, closestIspark.lat];
+    //     view.zoom = [14];
+    // }
+
     function getClosestIspark() {
         let distance = Infinity;
         let closestIspark = null;
-
-        isparks.forEach(ispark => {
-            const isparkLat = ispark.lat;
-            const isparkLng = ispark.lng;
-            const currentDistance = getDistance(isparkLat, isparkLng, currentLatitude, currentLongitude);
+        let count = 0;
+        allGraphics.forEach(ispark => {
+            count++;
+            const currentDistance = ispark.attributes.distance;
+            if(currentDistance > 100 && currentDistance < 110){
+                console.log(currentDistance);
+            }
             if (currentDistance < distance) {
                 closestIspark = ispark;
                 distance = currentDistance;
             }
-        });
-        const point = new Point({
-            longitude: closestIspark.lng,
-            latitude: closestIspark.lat
-        });
 
-        // Create a Graphic for the marker
-        const markerSymbol = {
-            type: "picture-marker",
-            url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
-            width: "48px",
-            height: "48px",
-            anchor: "bottom",
-            yoffset: 20
-        };
+        });
+        // Check if a closest Ispark was found
+        if (closestIspark) {
+            const point = new Point({
+                longitude: closestIspark.attributes.lon, // Use 'lon' for longitude
+                latitude: closestIspark.attributes.lat // Use 'lat' for latitude
+            });
 
-        const pointGraphic = new Graphic({
-            geometry: point,
-            symbol: markerSymbol,
-            attributes: {
-                id: closestIspark.parkID,
-            },
-            popupTemplate: {
-                title: "Closest Ispark",
-                content: `
-                <b>Name:</b> ${closestIspark.parkName}<br>
+            // Create a Graphic for the marker
+            const markerSymbol = {
+                type: "picture-marker",
+                url: "https://maps.google.com/mapfiles/ms/icons/yellow-dot.png",
+                width: "48px",
+                height: "48px",
+                anchor: "bottom",
+                yoffset: 20
+            };
+
+            const pointGraphic = new Graphic({
+                geometry: point,
+                symbol: markerSymbol,
+                attributes: {
+                    id: closestIspark.attributes.id,
+                },
+                popupTemplate: {
+                    title: "Closest Ispark",
+                    content: `
+                <b>Name:</b> ${closestIspark.attributes.name}<br>
                 <b>Distance:</b> ${distance} kilometers away<br>
-                <b>Park Type:</b> ${closestIspark.parkType}<br>
-                <b>District:</b> ${closestIspark.district}<br>
-                <a href="http://127.0.0.1:5000/ispark/${closestIspark.parkId}" target="_blank">Detailed Information</a><br>
-                <a href="https://www.google.com/maps?q={closestIspark.lat},{closestIspark.lng}" target="_blank">Get Direction</a>
+                <b>Park Type:</b> ${closestIspark.attributes.description}<br>
+                <b>District:</b> ${closestIspark.attributes.district}<br>
+                <a href="http://127.0.0.1:5000/ispark/${closestIspark.attributes.id}" target="_blank">Detailed Information</a><br>
+                <a href="https://www.google.com/maps?q=${closestIspark.attributes.lat},${closestIspark.attributes.lon}" target="_blank">Get Direction</a>
             `
-            }
-        });
+                }
+            });
 
-        // Add the marker Graphic to the GraphicsLayer
-        graphicsLayer.add(pointGraphic);
-        view.center = [closestIspark.lng, closestIspark.lat];
-        view.zoom = [14];
+            // Add the marker Graphic to the GraphicsLayer
+            graphicsLayer.add(pointGraphic);
+            view.center = [closestIspark.attributes.lon, closestIspark.attributes.lat]; // Use 'lon' and 'lat'
+            view.zoom = 14; // Set zoom level (not in an array)
+        } else {
+            console.warn("No Ispark found.");
+        }
     }
+
 
     // function haversineDistance(lat1, lon1, lat2, lon2) {
     //     const R = 6371; // Radius of Earth in kilometers
@@ -458,8 +522,8 @@ require([
         const webMercatorPoint2 = webMercatorUtils.geographicToWebMercator(point2);
 
         const distance = geometryEngine.distance(webMercatorPoint1, webMercatorPoint2, "kilometers");
-        const formattedValue = distance.toFixed(2);
-        return formattedValue;
+        // const formattedValue = distance.toFixed(2);
+        return distance;
     }
 
     function getCurrentLocation(callback) {
@@ -509,6 +573,7 @@ require([
                     const workHours = ispark.workHours;
                     const district = ispark.district;
                     const distance = getDistance(ispark.lat, ispark.lng, currentLatitude, currentLongitude);
+                    const distance2 = distance.toFixed(2);
                     // Update the HTML with the fetched details
                     document.getElementById("isparkName").innerHTML = name;
                     document.getElementById("isparkDistrict").innerHTML = district;
@@ -516,7 +581,7 @@ require([
                     document.getElementById("isparkStatus").innerHTML = isOpen ? "Open" : "Closed";
                     document.getElementById("isparkEmptyCapacity").innerHTML = emptyCapacity + "/" + capacity;
                     document.getElementById("isparkUpdateDate").innerHTML = updateDate;
-                    document.getElementById("isparkDistance").innerHTML = distance + " km away";
+                    document.getElementById("isparkDistance").innerHTML = distance2 + " km away";
                     document.getElementById("isparkGetDirection").innerHTML = `<a href="https://www.google.com/maps?q=${ispark.lat},${ispark.lng}" target="_blank">Get Direction</a>`;
 
                     // Display the ispark info
@@ -581,7 +646,7 @@ require([
             const isparkLng = graphic.geometry.longitude;
             const distance = getDistance(currentLatitude, currentLongitude, isparkLat, isparkLng);
 
-            if (distance * 100 <= maxDistance * 100) {
+            if (distance  <= maxDistance ) {
                 graphic.visible = true;
                 count++;
             } else {
